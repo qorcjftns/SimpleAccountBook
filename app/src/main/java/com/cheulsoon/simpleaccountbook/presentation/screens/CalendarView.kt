@@ -3,13 +3,11 @@ package com.cheulsoon.simpleaccountbook.presentation.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -22,12 +20,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.Placeable
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.cheulsoon.simpleaccountbook.presentation.viewmodel.ProductListVewModel
+import com.cheulsoon.simpleaccountbook.data.model.Transaction
+import com.cheulsoon.simpleaccountbook.presentation.viewmodel.TransactionViewModel
+import com.cheulsoon.simpleaccountbook.screens.TransactionListView
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -42,16 +41,7 @@ fun CalendarView(
     modifier: Modifier = Modifier
 ) {
 
-    val viewModel : ProductListVewModel = hiltViewModel()
-    var result = viewModel.productList.value
-
-    if(result.isLoading) {
-        Column(modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center) {
-            CircularProgressIndicator(modifier = Modifier.size(50.dp))
-        }
-    }
+    val viewModel : TransactionViewModel = hiltViewModel()
 
     val date = Calendar.getInstance()
     date.set(Calendar.YEAR, year)
@@ -60,13 +50,13 @@ fun CalendarView(
     Column(modifier = modifier) {
         Box(modifier = Modifier.fillMaxWidth()) {
             IconButton(
-                onClick = { onClickButton(true) },
+                onClick = { onClickButton(viewModel, true) },
                 modifier = Modifier.align(Alignment.CenterStart),
             ) {
                 Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, contentDescription = null)
             }
             IconButton(
-                onClick = { onClickButton(true) },
+                onClick = { onClickButton(viewModel, true) },
                 modifier = Modifier.align(Alignment.CenterEnd),
             ) {
                 Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = null)
@@ -81,22 +71,35 @@ fun CalendarView(
         Spacer(modifier = Modifier.size(16.dp))
         CalendarGrid(
             date = getDateList(year, month + 1),
-            onClick = { date -> onClickItem(date) },
+            onClick = { date -> onClickItem(viewModel, date) },
             startFromSunday = startFromSunday,
             modifier = Modifier
                 .wrapContentHeight()
                 .padding(horizontal = 16.dp)
                 .align(Alignment.CenterHorizontally)
         )
+        TransactionListView()
     }
 }
 
-private fun onClickItem(date: Date) {
-
+private fun onClickItem(viewModel: TransactionViewModel, date: Date) {
+    viewModel.insertTransaction(Transaction(
+        1,
+        "Test Title",
+        100,
+        Date().time,
+        "HAHAAH"
+    ))
 }
 
-private fun onClickButton(next: Boolean) {
-
+private fun onClickButton(viewModel: TransactionViewModel, next: Boolean) {
+    viewModel.insertTransaction(Transaction(
+     1,
+        "Test Title",
+        100,
+        Date().time,
+        "HAHAAH"
+    ))
 }
 
 fun getDateList(year: Int, month: Int): List<Date> {

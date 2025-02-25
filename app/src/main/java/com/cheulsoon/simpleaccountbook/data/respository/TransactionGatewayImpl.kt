@@ -19,4 +19,8 @@ class TransactionGatewayImpl @Inject constructor(private val transactionDao: Tra
     override suspend fun getTransactionsByMonth(month: Int): Flow<List<Transaction>> {
         return transactionDao.getTransactionsByMonth(month)
     }
+
+    override suspend fun insertTransaction(transaction: Transaction) {
+        transactionDao.insertAll(transaction)
+    }
 }

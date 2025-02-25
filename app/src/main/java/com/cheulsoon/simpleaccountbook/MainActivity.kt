@@ -8,11 +8,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.cheulsoon.simpleaccountbook.presentation.screens.CalendarView
-import com.cheulsoon.simpleaccountbook.screens.listingScreen
 import com.cheulsoon.simpleaccountbook.ui.theme.SimpleABTheme
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
-import java.util.Date
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {

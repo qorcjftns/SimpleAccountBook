@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,31 +21,32 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
+import com.cheulsoon.simpleaccountbook.data.model.Transaction
 import com.cheulsoon.simpleaccountbook.domain.model.ProductItem
 
 
 @Composable
-fun listItem(category: ProductItem, onItemClick : (ProductItem) -> Unit) {
+fun listItem(transaction: Transaction, onItemClick : (Transaction) -> Unit) {
     Card (modifier = Modifier.fillMaxWidth().padding(8.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(5.dp).clickable {
-            onItemClick(category)
+            onItemClick(transaction)
         }) {
             Image(
                 modifier = Modifier.size(200.dp).padding(8.dp).weight(0.4f),
-                painter = rememberAsyncImagePainter(category.image),
+                painter = rememberAsyncImagePainter(Icons.Filled.Check),
                 contentDescription = ""
             )
-            userDescription(category, Modifier.weight(0.6f))
+            userDescription(transaction, Modifier.weight(0.6f))
         }
         Spacer(modifier = Modifier.fillMaxWidth().height(1.dp))
     }
 }
 
 @Composable
-fun userDescription(category: ProductItem, modifier: Modifier) {
+fun userDescription(transaction: Transaction, modifier: Modifier) {
     Column(modifier = modifier) {
-        Text(category.title, fontSize = 14.sp, fontWeight = FontWeight.Bold)
+        Text(transaction.title, fontSize = 14.sp, fontWeight = FontWeight.Bold)
         Spacer(Modifier.height(10.dp))
-        Text(category.description, fontSize = 12.sp, maxLines = 4, overflow = TextOverflow.Ellipsis)
+        Text(transaction.description, fontSize = 12.sp, maxLines = 4, overflow = TextOverflow.Ellipsis)
     }
 }

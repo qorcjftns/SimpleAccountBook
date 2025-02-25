@@ -12,4 +12,6 @@ interface TransactionGateway {
 
     suspend fun getTransactionsByMonth(month: Int) : Flow<List<Transaction>>
 
+    suspend fun insertTransaction(transaction: Transaction)
+
 }
