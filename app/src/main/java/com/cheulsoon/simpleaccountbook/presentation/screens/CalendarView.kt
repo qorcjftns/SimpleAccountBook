@@ -78,7 +78,11 @@ fun CalendarView(
                 .padding(horizontal = 16.dp)
                 .align(Alignment.CenterHorizontally)
         )
-        TransactionListView()
+        TransactionListView(
+            date.get(Calendar.YEAR),
+            date.get(Calendar.MONTH),
+            date.get(Calendar.DAY_OF_MONTH)
+        )
     }
 }
 

@@ -8,9 +8,9 @@ interface TransactionGateway {
 
     suspend fun getTransactionById(id: Int) : Flow<Transaction>
 
-    suspend fun getTransactionsByDate(date: Long) : Flow<List<Transaction>>
+    suspend fun getTransactionsByDate(year: Int, month: Int, day: Int) : Flow<List<Transaction>>
 
-    suspend fun getTransactionsByMonth(month: Int) : Flow<List<Transaction>>
+    suspend fun getTransactionsByMonth(year: Int, month: Int) : Flow<List<Transaction>>
 
     suspend fun insertTransaction(transaction: Transaction)
 

@@ -12,12 +12,12 @@ class TransactionGatewayImpl @Inject constructor(private val transactionDao: Tra
         return transactionDao.getTransactionById(id)
     }
 
-    override suspend fun getTransactionsByDate(date: Long): Flow<List<Transaction>> {
-        return transactionDao.getTransactionsByDate(date)
+    override suspend fun getTransactionsByDate(year: Int, month: Int, day: Int): Flow<List<Transaction>> {
+        return transactionDao.getTransactionsByDate(year, month, day)
     }
 
-    override suspend fun getTransactionsByMonth(month: Int): Flow<List<Transaction>> {
-        return transactionDao.getTransactionsByMonth(month)
+    override suspend fun getTransactionsByMonth(year: Int, month: Int): Flow<List<Transaction>> {
+        return transactionDao.getTransactionsByMonth(year, month)
     }
 
     override suspend fun insertTransaction(transaction: Transaction) {

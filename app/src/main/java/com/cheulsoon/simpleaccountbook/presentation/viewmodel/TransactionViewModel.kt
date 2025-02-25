@@ -24,11 +24,14 @@ class TransactionViewModel @Inject constructor(
     private val _transactionList = mutableStateOf(TransactionListState())
     val transactionList : State<TransactionListState> get() = _transactionList
 
-    init {
-        getTransactions()
+    init{
+        getTransactions(2025, 2, 25)
     }
 
-    fun getTransactions() {
+    fun getTransactions(year: Int, month: Int, day: Int) {
+        getTransactionByDateUseCase.year = year
+        getTransactionByDateUseCase.month = month
+        getTransactionByDateUseCase.day = day
         getTransactionByDateUseCase.invoke().onEach {
             when(it){
                 is UiState.Loading->{

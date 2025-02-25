@@ -7,7 +7,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,9 +20,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.cheulsoon.simpleaccountbook.presentation.screens.component.listItem
 import com.cheulsoon.simpleaccountbook.presentation.viewmodel.TransactionViewModel
 
-@Preview(showSystemUi = true, showBackground = true)
 @Composable
-fun TransactionListView(){
+fun TransactionListView(
+    year: Int,
+    month: Int,
+    day: Int
+){
 
     val viewModel : TransactionViewModel = hiltViewModel()
     val result = viewModel.transactionList.value
@@ -41,5 +47,9 @@ fun TransactionListView(){
             }
         }
     }
-
+    Column(
+        modifier = Modifier.verticalScroll(rememberScrollState())
+    ) {
+        Text("Error: ${result.error}")
+    }
 }
