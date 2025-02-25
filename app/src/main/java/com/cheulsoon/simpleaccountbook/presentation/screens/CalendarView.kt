@@ -7,6 +7,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -51,22 +53,26 @@ fun CalendarView(
         }
     }
 
+    val date = Calendar.getInstance()
+    date.set(Calendar.YEAR, year)
+    date.set(Calendar.MONTH, month)
+
     Column(modifier = modifier) {
         Box(modifier = Modifier.fillMaxWidth()) {
             IconButton(
                 onClick = { onClickButton(true) },
                 modifier = Modifier.align(Alignment.CenterStart),
             ) {
-                Icon(Icons.Filled.KeyboardArrowLeft, contentDescription = null)
+                Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, contentDescription = null)
             }
             IconButton(
                 onClick = { onClickButton(true) },
                 modifier = Modifier.align(Alignment.CenterEnd),
             ) {
-                Icon(Icons.Filled.KeyboardArrowRight, contentDescription = null)
+                Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = null)
             }
             Text(
-                text = Date(year, month, 1).formatTitleString(),
+                text = date.time.formatTitleString(),
                 style = typography.headlineMedium,
                 color = colorScheme.onPrimaryContainer,
                 modifier = Modifier.align(Alignment.Center),
@@ -101,7 +107,11 @@ fun getDateList(year: Int, month: Int): List<Date> {
         else -> if(year % 4 == 0) 29 else 28
     }
     for(d in 1..maxDate) {
-        list.add(Date(year, month - 1, d))
+        val cal = Calendar.getInstance()
+        cal.set(Calendar.YEAR, year)
+        cal.set(Calendar.MONTH, month)
+        cal.set(Calendar.DAY_OF_MONTH, d)
+        list.add(cal.time)
     }
     return list
 }
@@ -113,7 +123,9 @@ private fun CalendarGrid(
     startFromSunday: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    val weekdayFirstDay = date.first().day + 1
+    val firstDay = Calendar.getInstance()
+    firstDay.time = date.first()
+    val weekdayFirstDay = firstDay.get(Calendar.DAY_OF_WEEK)
     val weekdays = getWeekDays(startFromSunday)
     CalendarCustomLayout(modifier = modifier) {
         weekdays.forEach {

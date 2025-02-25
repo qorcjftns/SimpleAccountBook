@@ -26,9 +26,11 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    val calendar = Calendar.getInstance()
+                    calendar.time = date
                     CalendarView(
-                        year = date.year,
-                        month = date.month,
+                        year = calendar.get(Calendar.YEAR),
+                        month = calendar.get(Calendar.MONTH),
                         startFromSunday = true,
                         modifier = Modifier.fillMaxSize(),
                     )
