@@ -92,27 +92,27 @@ fun CalendarView(
     }
 }
 
-fun getDateList(year: Int, month: Int): List<Pair<Date, Boolean>> {
-    val list = arrayListOf<Pair<Date, Boolean>>()
+fun getDateList(year: Int, month: Int): List<Date> {
+    val list = arrayListOf<Date>()
     val maxDate: Int = when(month) {
         1, 3, 5, 7, 8, 10, 12 -> 31
         4, 6, 9, 11 -> 30
         else -> if(year % 4 == 0) 29 else 28
     }
     for(d in 1..maxDate) {
-        list.add(Pair(Date(year, month - 1, d), false))
+        list.add(Date(year, month - 1, d))
     }
     return list
 }
 
 @Composable
 private fun CalendarGrid(
-    date: List<Pair<Date, Boolean>>,
+    date: List<Date>,
     onClick: (Date) -> Unit,
     startFromSunday: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    val weekdayFirstDay = date.first().first.day + 1
+    val weekdayFirstDay = date.first().day + 1
     val weekdays = getWeekDays(startFromSunday)
     CalendarCustomLayout(modifier = modifier) {
         weekdays.forEach {
@@ -123,7 +123,7 @@ private fun CalendarGrid(
             Spacer(modifier = Modifier)
         }
         date.forEach {
-            CalendarCell(date = it.first, signal = it.second, onClick = { onClick(it.first) })
+            CalendarCell(date = it, onClick = { onClick(it) })
         }
     }
 }
@@ -139,7 +139,6 @@ private fun Date.formatToCalendarDay(): String = SimpleDateFormat("d", Locale.ge
 @Composable
 fun CalendarCell (
     date: Date,
-    signal: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -156,18 +155,6 @@ fun CalendarCell (
             .clip(RoundedCornerShape(CornerSize(8.dp)))
             .clickable(onClick = onClick)
     ) {
-        if (signal) {
-            Box(
-                modifier = Modifier
-                    .aspectRatio(1f)
-                    .fillMaxSize()
-                    .padding(8.dp)
-                    .background(
-                        shape = CircleShape,
-                        color = colorScheme.tertiaryContainer.copy(alpha = 0.7f)
-                    )
-            )
-        }
         Text(
             text = text,
             color = colorScheme.onSecondaryContainer,
