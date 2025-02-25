@@ -29,11 +29,6 @@ class MainActivity : ComponentActivity() {
                     CalendarView(
                         year = date.year,
                         month = date.month,
-                        displayNext = true,
-                        displayPrev = true,
-                        onClick = {},
-                        onClickNext = {},
-                        onClickPrev = {},
                         startFromSunday = true,
                         modifier = Modifier.fillMaxSize(),
                     )

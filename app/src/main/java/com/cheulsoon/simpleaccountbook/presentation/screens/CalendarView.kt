@@ -9,6 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
@@ -35,17 +36,11 @@ import java.util.Locale
 fun CalendarView(
     year: Int,
     month: Int,
-    displayNext: Boolean,
-    displayPrev: Boolean,
-    onClickNext: () -> Unit,
-    onClickPrev: () -> Unit,
-    onClick: (Date) -> Unit,
     startFromSunday: Boolean,
     modifier: Modifier = Modifier
 ) {
 
     val viewModel : ProductListVewModel = hiltViewModel()
-    val context  = LocalContext.current
     var result = viewModel.productList.value
 
     if(result.isLoading) {
@@ -58,20 +53,18 @@ fun CalendarView(
 
     Column(modifier = modifier) {
         Box(modifier = Modifier.fillMaxWidth()) {
-            if (displayPrev)
-                IconButton(
-                    onClick = onClickPrev,
-                    modifier = Modifier.align(Alignment.CenterStart),
-                ) {
-                    Icons.Filled.KeyboardArrowLeft
-                }
-            if (displayNext)
-                IconButton(
-                    onClick = onClickNext,
-                    modifier = Modifier.align(Alignment.CenterEnd),
-                ) {
-                    Icons.Filled.KeyboardArrowRight
-                }
+            IconButton(
+                onClick = { onClickButton(true) },
+                modifier = Modifier.align(Alignment.CenterStart),
+            ) {
+                Icon(Icons.Filled.KeyboardArrowLeft, contentDescription = null)
+            }
+            IconButton(
+                onClick = { onClickButton(true) },
+                modifier = Modifier.align(Alignment.CenterEnd),
+            ) {
+                Icon(Icons.Filled.KeyboardArrowRight, contentDescription = null)
+            }
             Text(
                 text = Date(year, month, 1).formatTitleString(),
                 style = typography.headlineMedium,
@@ -82,7 +75,7 @@ fun CalendarView(
         Spacer(modifier = Modifier.size(16.dp))
         CalendarGrid(
             date = getDateList(year, month + 1),
-            onClick = onClick,
+            onClick = { date -> onClickItem(date) },
             startFromSunday = startFromSunday,
             modifier = Modifier
                 .wrapContentHeight()
@@ -90,6 +83,14 @@ fun CalendarView(
                 .align(Alignment.CenterHorizontally)
         )
     }
+}
+
+private fun onClickItem(date: Date) {
+
+}
+
+private fun onClickButton(next: Boolean) {
+
 }
 
 fun getDateList(year: Int, month: Int): List<Date> {
