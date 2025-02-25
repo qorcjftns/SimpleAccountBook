@@ -1,5 +1,8 @@
 [versions]
 kotlin = "2.0.0"
+roomKtx = "2.6.1"
+[libraries]
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomKtx" }
 
 [plugins]
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
