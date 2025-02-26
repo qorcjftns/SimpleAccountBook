@@ -39,11 +39,10 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MyViewPager(viewModel: PagerViewModel = hiltViewModel()) {
+fun MyViewPager() {
     val tabs = listOf(
         Pair("홈", Icons.Default.Home),
-        Pair("추가", Icons.Default.Add),
-        Pair("설정", Icons.Default.Settings)
+        Pair("추가", Icons.Default.Add)
     )
     val pagerState = rememberPagerState(pageCount = { tabs.size })
     val coroutineScope = rememberCoroutineScope()
@@ -56,7 +55,6 @@ fun MyViewPager(viewModel: PagerViewModel = hiltViewModel()) {
             when(page) {
                 0 -> CalendarScreen()
                 1 -> AddScreen()
-                2 -> SettingScreen()
                 else -> Text("Haha! You found a bug!")
             }
         }
