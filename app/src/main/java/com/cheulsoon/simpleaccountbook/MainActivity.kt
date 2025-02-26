@@ -27,8 +27,6 @@ class MainActivity : ComponentActivity() {
                     val calendar = Calendar.getInstance()
                     calendar.time = date
                     CalendarView(
-                        year = calendar.get(Calendar.YEAR),
-                        month = calendar.get(Calendar.MONTH),
                         startFromSunday = true,
                         modifier = Modifier.fillMaxSize(),
                     )

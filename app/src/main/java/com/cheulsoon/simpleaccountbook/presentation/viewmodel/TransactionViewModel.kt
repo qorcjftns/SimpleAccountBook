@@ -49,6 +49,10 @@ class TransactionViewModel @Inject constructor(
         insertTransactionUseCase.invoke()
     }
 
+    fun setDate(date: Date) {
+        _selectedDate.value = date
+    }
+
     private fun mapToTransactionListState(it: UiState<List<Transaction>>): TransactionListState {
         return when(it){
             is UiState.Loading->{

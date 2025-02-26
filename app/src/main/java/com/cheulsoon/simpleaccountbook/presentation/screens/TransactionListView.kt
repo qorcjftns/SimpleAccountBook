@@ -2,6 +2,7 @@ package com.cheulsoon.simpleaccountbook.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
@@ -18,17 +19,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.cheulsoon.simpleaccountbook.core.common.toCalendar
 import com.cheulsoon.simpleaccountbook.presentation.screens.component.listItem
 import com.cheulsoon.simpleaccountbook.presentation.viewmodel.TransactionViewModel
+import java.util.Calendar
 
 @Composable
-fun TransactionListView(
-    year: Int,
-    month: Int,
-    day: Int
-){
+fun TransactionListView(){
 
     val viewModel : TransactionViewModel = hiltViewModel()
+    val selectedDate = viewModel.selectedDate.collectAsState().value
     val result = viewModel.transactionList.collectAsState().value
 
     if(result.isLoading) {
@@ -40,7 +40,14 @@ fun TransactionListView(
     }
 
     result.data?.let {
-        LazyColumn(modifier = Modifier.fillMaxWidth()) {
+        val selectedCalendar = selectedDate.toCalendar()
+        Column(modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text("${selectedCalendar.get(Calendar.YEAR)} / ${selectedCalendar.get(Calendar.MONTH) + 1} / ${selectedCalendar.get(Calendar.DAY_OF_MONTH)}")
+        }
+        LazyColumn(modifier = Modifier.fillMaxSize()) {
             items(it) { item ->
                 listItem(item) { transaction ->
 

@@ -15,6 +15,7 @@ import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,17 +36,15 @@ import java.util.Locale
 
 @Composable
 fun CalendarView(
-    year: Int,
-    month: Int,
     startFromSunday: Boolean,
     modifier: Modifier = Modifier
 ) {
 
     val viewModel : TransactionViewModel = hiltViewModel()
+    val selectedDate = viewModel.selectedDate.collectAsState().value
 
     val date = Calendar.getInstance()
-    date.set(Calendar.YEAR, year)
-    date.set(Calendar.MONTH, month)
+    date.time = selectedDate
 
     Column(modifier = modifier) {
         Box(modifier = Modifier.fillMaxWidth()) {
@@ -70,7 +69,7 @@ fun CalendarView(
         }
         Spacer(modifier = Modifier.size(16.dp))
         CalendarGrid(
-            date = getDateList(year, month + 1),
+            date = getDateList(date.get(Calendar.YEAR), date.get(Calendar.MONTH)),
             onClick = { date -> onClickItem(viewModel, date) },
             startFromSunday = startFromSunday,
             modifier = Modifier
@@ -78,32 +77,19 @@ fun CalendarView(
                 .padding(horizontal = 16.dp)
                 .align(Alignment.CenterHorizontally)
         )
-        TransactionListView(
-            date.get(Calendar.YEAR),
-            date.get(Calendar.MONTH),
-            date.get(Calendar.DAY_OF_MONTH)
-        )
+        TransactionListView()
     }
 }
 
 private fun onClickItem(viewModel: TransactionViewModel, date: Date) {
-    viewModel.insertTransaction(Transaction(
-        1,
-        "Test Title",
-        100,
-        Date().time,
-        "HAHAAH"
-    ))
+    viewModel.setDate(date)
 }
 
 private fun onClickButton(viewModel: TransactionViewModel, next: Boolean) {
-    viewModel.insertTransaction(Transaction(
-     1,
-        "Test Title",
-        100,
-        Date().time,
-        "HAHAAH"
-    ))
+    val date = Calendar.getInstance()
+    date.time = viewModel.selectedDate.value
+    date.set(Calendar.MONTH, date.get(Calendar.MONTH) + (if(next) 1 else -1))
+    viewModel.setDate(date.time)
 }
 
 fun getDateList(year: Int, month: Int): List<Date> {
