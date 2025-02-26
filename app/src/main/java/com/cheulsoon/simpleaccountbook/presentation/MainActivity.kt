@@ -1,4 +1,4 @@
-package com.cheulsoon.simpleaccountbook
+package com.cheulsoon.simpleaccountbook.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,7 +11,6 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
@@ -19,14 +18,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.cheulsoon.simpleaccountbook.presentation.screens.AddScreen
 import com.cheulsoon.simpleaccountbook.presentation.screens.CalendarScreen
-import com.cheulsoon.simpleaccountbook.presentation.screens.SettingScreen
-import com.cheulsoon.simpleaccountbook.presentation.viewmodel.PagerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import java.util.Calendar
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {

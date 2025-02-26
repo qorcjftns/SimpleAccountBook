@@ -4,11 +4,10 @@ import com.cheulsoon.simpleaccountbook.data.model.Transaction
 import com.cheulsoon.simpleaccountbook.data.netwotk.TransactionDao
 import com.cheulsoon.simpleaccountbook.domain.repository.TransactionGateway
 import kotlinx.coroutines.flow.Flow
-import java.util.Date
 import javax.inject.Inject
 
 class TransactionGatewayImpl @Inject constructor(private val transactionDao: TransactionDao) : TransactionGateway {
-    override suspend fun getTransactionById(id: Int): Flow<Transaction> {
+    override suspend fun getTransactionById(id: Long): Flow<Transaction> {
         return transactionDao.getTransactionById(id)
     }
 
@@ -22,5 +21,9 @@ class TransactionGatewayImpl @Inject constructor(private val transactionDao: Tra
 
     override suspend fun insertTransaction(transaction: Transaction) {
         transactionDao.insertAll(transaction)
+    }
+
+    override suspend fun updateTransaction(transaction: Transaction) {
+        transactionDao.update(transaction)
     }
 }

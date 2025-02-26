@@ -1,5 +1,6 @@
 package com.cheulsoon.simpleaccountbook.presentation.screens.component
 
+import android.content.Intent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,8 +16,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.cheulsoon.simpleaccountbook.presentation.EditTransactionActivity
 import com.cheulsoon.simpleaccountbook.presentation.viewmodel.TransactionViewModel
 import java.util.Calendar
 
@@ -26,6 +29,8 @@ fun TransactionListView(){
     val viewModel : TransactionViewModel = hiltViewModel()
     val selectedDate = viewModel.selectedDate.collectAsState().value
     val result = viewModel.transactionList.collectAsState().value
+
+    val context = LocalContext.current
 
     if(result.isLoading) {
         Column(modifier = Modifier.fillMaxSize(),
@@ -45,7 +50,10 @@ fun TransactionListView(){
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             items(it) { item ->
                 listItem(item) { transaction ->
-
+                    //  클릭하면 새로운 Activity로 이동
+                    val intent = Intent(context, EditTransactionActivity::class.java)
+                    intent.putExtra("transaction_id", transaction.id) // Transaction ID 전달
+                    context.startActivity(intent)
                 }
             }
         }

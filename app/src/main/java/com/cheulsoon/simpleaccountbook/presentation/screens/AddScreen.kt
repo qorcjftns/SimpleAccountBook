@@ -59,7 +59,7 @@ fun AddScreen() {
     val viewModel: TransactionViewModel = hiltViewModel()
     val selectedDate = viewModel.selectedDate.collectAsState().value
 
-    val snackbarHostState = remember { SnackbarHostState() } // 🔹 Snackbar 상태를 최상단에서 관리
+    val snackbarHostState = remember { SnackbarHostState() } //  Snackbar 상태를 최상단에서 관리
 
     SimpleABTheme {
         Surface(
@@ -70,7 +70,7 @@ fun AddScreen() {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // 🔹 날짜 표시 + 좌우 화살표 버튼
+                //  날짜 표시 + 좌우 화살표 버튼
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -96,10 +96,10 @@ fun AddScreen() {
                     }
                 }
 
-                // 🔹 기존 입력 폼
+                //  기존 입력 폼
                 InputForm(snackbarHostState)
 
-                // 🔹 Snackbar 표시
+                //  Snackbar 표시
                 SnackbarHost(hostState = snackbarHostState)
             }
         }
@@ -137,7 +137,7 @@ fun InputForm(snackbarHostState: SnackbarHostState) {
 
         TimePickerField(time = time, onTimeChange = { time = it })
 
-        // 🔹 제목 입력 필드
+        //  제목 입력 필드
         OutlinedTextField(
             value = title,
             onValueChange = {
@@ -150,7 +150,7 @@ fun InputForm(snackbarHostState: SnackbarHostState) {
             modifier = Modifier.fillMaxWidth()
         )
 
-        // 🔹 숫자 입력 필드 (Amount)
+        //  숫자 입력 필드 (Amount)
         OutlinedTextField(
             value = formatNumber(amount),
             onValueChange = { newValue ->
@@ -168,7 +168,7 @@ fun InputForm(snackbarHostState: SnackbarHostState) {
         )
 
 
-        // 🔹 설명 입력 필드
+        //  설명 입력 필드
         OutlinedTextField(
             value = description,
             onValueChange = { description = it },
@@ -181,7 +181,7 @@ fun InputForm(snackbarHostState: SnackbarHostState) {
             minLines = 2
         )
 
-        // 🔹 저장 버튼
+        //  저장 버튼
         Button(
             onClick = {
                 // 필수 입력값 검증

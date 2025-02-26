@@ -71,6 +71,8 @@ dependencies {
 
     implementation("com.google.dagger:hilt-android:2.51.1")
     implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.runtime.livedata)
     kapt("com.google.dagger:hilt-compiler:2.51.1")
     kapt("androidx.hilt:hilt-compiler:1.2.0")
 

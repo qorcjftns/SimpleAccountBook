@@ -17,7 +17,7 @@
         android:theme="@style/Theme.SimpleAB"
         tools:targetApi="31">
         <activity
-            android:name="com.cheulsoon.simpleaccountbook.MainActivity"
+            android:name=".presentation.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.SimpleAB">
@@ -26,6 +26,14 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".presentation.EditTransactionActivity"
+            android:exported="true"
+            android:parentActivityName=".presentation.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".presentation.MainActivity" />
         </activity>
     </application>
 

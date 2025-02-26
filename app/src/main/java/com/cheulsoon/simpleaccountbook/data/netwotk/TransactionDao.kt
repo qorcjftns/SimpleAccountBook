@@ -4,16 +4,16 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import com.cheulsoon.simpleaccountbook.data.model.Transaction
 import kotlinx.coroutines.flow.Flow
-import java.util.Date
 
 
 @Dao
 interface TransactionDao {
 
     @Query("SELECT * FROM `Transaction` WHERE id = :id")
-    fun getTransactionById(id: Int) : Flow<Transaction>
+    fun getTransactionById(id: Long) : Flow<Transaction>
 
     @Query("SELECT * FROM `Transaction` WHERE date_day = :day AND date_month = :month AND date_year = :year")
     fun getTransactionsByDate(year: Int, month: Int, day: Int) : Flow<List<Transaction>>
@@ -26,5 +26,8 @@ interface TransactionDao {
 
     @Delete
     fun delete(transaction: Transaction)
+
+    @Update
+    fun update(transaction: Transaction)
 
 }

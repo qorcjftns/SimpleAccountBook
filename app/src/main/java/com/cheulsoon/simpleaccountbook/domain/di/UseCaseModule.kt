@@ -5,7 +5,9 @@ import com.cheulsoon.simpleaccountbook.data.respository.TransactionGatewayImpl
 import com.cheulsoon.simpleaccountbook.domain.usecase.GetProductDetailUseCase
 import com.cheulsoon.simpleaccountbook.domain.usecase.GetProductListUseCase
 import com.cheulsoon.simpleaccountbook.domain.usecase.GetTransactionByDateUseCase
+import com.cheulsoon.simpleaccountbook.domain.usecase.GetTransactionByIdUseCase
 import com.cheulsoon.simpleaccountbook.domain.usecase.InsertTransactionUseCase
+import com.cheulsoon.simpleaccountbook.domain.usecase.UpdateTransactionUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -38,6 +40,18 @@ class UseCaseModule {
     @Singleton
     fun insertTransactionUseCase(transactionGateway: TransactionGatewayImpl) : InsertTransactionUseCase{
         return InsertTransactionUseCase(transactionGateway)
+    }
+
+    @Provides
+    @Singleton
+    fun getTransactionByIdUseCase(transactionGateway: TransactionGatewayImpl) : GetTransactionByIdUseCase {
+        return GetTransactionByIdUseCase(transactionGateway)
+    }
+
+    @Provides
+    @Singleton
+    fun updateTransactionUseCase(transactionGateway: TransactionGatewayImpl) : UpdateTransactionUseCase {
+        return UpdateTransactionUseCase(transactionGateway)
     }
 
 }
