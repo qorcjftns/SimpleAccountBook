@@ -43,13 +43,13 @@ fun CalendarView(
     Column(modifier = modifier) {
         Box(modifier = Modifier.fillMaxWidth()) {
             IconButton(
-                onClick = { onClickButton(viewModel, true) },
+                onClick = { viewModel.addMonth(-1) },
                 modifier = Modifier.align(Alignment.CenterStart),
             ) {
                 Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, contentDescription = null)
             }
             IconButton(
-                onClick = { onClickButton(viewModel, true) },
+                onClick = { viewModel.addMonth(1) },
                 modifier = Modifier.align(Alignment.CenterEnd),
             ) {
                 Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = null)
@@ -80,9 +80,7 @@ private fun onClickItem(viewModel: TransactionViewModel, date: Calendar) {
 }
 
 private fun onClickButton(viewModel: TransactionViewModel, next: Boolean) {
-    val date = viewModel.selectedDate.value
-    date.set(Calendar.MONTH, date.get(Calendar.MONTH) + (if(next) 1 else -1))
-    viewModel.setDate(date)
+    viewModel.addMonth(if(next) 1 else -1)
 }
 
 fun getDateList(year: Int, month: Int): List<Calendar> {

@@ -42,6 +42,8 @@ fun userDescription(transaction: Transaction, modifier: Modifier) {
     Column(modifier = modifier) {
         Text(transaction.title, fontSize = 14.sp, fontWeight = FontWeight.Bold)
         Spacer(Modifier.height(10.dp))
+        Text(transaction.amount.toString(), fontSize = 14.sp, fontWeight = FontWeight.Bold)
+        Spacer(Modifier.height(10.dp))
         Text(transaction.description, fontSize = 12.sp, maxLines = 4, overflow = TextOverflow.Ellipsis)
     }
 }

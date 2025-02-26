@@ -2,14 +2,11 @@ package com.cheulsoon.simpleaccountbook.domain.usecase
 
 import com.cheulsoon.simpleaccountbook.core.common.UiState
 import com.cheulsoon.simpleaccountbook.data.model.Transaction
-import com.cheulsoon.simpleaccountbook.data.respository.RepositoryImpl
 import com.cheulsoon.simpleaccountbook.data.respository.TransactionGatewayImpl
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
-import java.time.LocalDate
 import java.util.Calendar
-import java.util.Date
 import javax.inject.Inject
 
 class GetTransactionByDateUseCase @Inject constructor(private val transactionGatewayImpl: TransactionGatewayImpl) {

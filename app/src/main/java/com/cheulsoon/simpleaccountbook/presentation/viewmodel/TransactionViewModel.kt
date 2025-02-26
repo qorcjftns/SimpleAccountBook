@@ -3,6 +3,7 @@ package com.cheulsoon.simpleaccountbook.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cheulsoon.simpleaccountbook.core.common.UiState
+import com.cheulsoon.simpleaccountbook.core.common.toLocalTimeMillis
 import com.cheulsoon.simpleaccountbook.data.model.Transaction
 import com.cheulsoon.simpleaccountbook.domain.usecase.GetTransactionByDateUseCase
 import com.cheulsoon.simpleaccountbook.domain.usecase.InsertTransactionUseCase
@@ -44,9 +45,17 @@ class TransactionViewModel @Inject constructor(
         _selectedDate.value = date
     }
 
+    fun addMonth(i: Int) {
+        val calendar = Calendar.getInstance().apply {
+            timeInMillis = selectedDate.value.timeInMillis
+            add(Calendar.MONTH, i)
+        }
+        _selectedDate.value = calendar
+    }
+
     fun changeDate(days: Int) {
         val calendar: Calendar = Calendar.getInstance().apply {
-            timeInMillis = _selectedDate.value.timeInMillis
+            timeInMillis = _selectedDate.value.toLocalTimeMillis()
             add(Calendar.DAY_OF_MONTH, days) // 날짜 변경
         }
         _selectedDate.value = calendar

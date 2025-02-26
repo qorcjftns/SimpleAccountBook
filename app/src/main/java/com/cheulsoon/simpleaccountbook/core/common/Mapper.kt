@@ -21,9 +21,9 @@ fun ProductListDTO.toProductDetail() : ProductDetail{
         title = this.title)
 }
 
-fun Date.toCalendar(): Calendar {
-    val cal = Calendar.getInstance()
-    cal.time = this
-    return cal
+fun Calendar.toLocalTimeMillis(): Long {
+    this.set(Calendar.SECOND, 0)
+    this.set(Calendar.MILLISECOND, 0)
+    return this.timeInMillis
 }
 

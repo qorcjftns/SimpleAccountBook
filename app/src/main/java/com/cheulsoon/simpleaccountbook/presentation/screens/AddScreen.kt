@@ -45,11 +45,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.cheulsoon.simpleaccountbook.core.common.toCalendar
+import com.cheulsoon.simpleaccountbook.core.common.toLocalTimeMillis
 import com.cheulsoon.simpleaccountbook.data.model.Transaction
 import com.cheulsoon.simpleaccountbook.presentation.viewmodel.TransactionViewModel
 import com.cheulsoon.simpleaccountbook.ui.theme.SimpleABTheme
-import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -208,7 +207,12 @@ fun InputForm(snackbarHostState: SnackbarHostState) {
                             title = title,
                             amount = amountInt,
                             description = description,
-                            date = selectedDate.timeInMillis,
+                            date_year  = selectedDate.get(Calendar.YEAR),
+                            date_month = selectedDate.get(Calendar.MONTH) + 1,
+                            date_day   = selectedDate.get(Calendar.DAY_OF_MONTH),
+                            date_hour  = selectedDate.get(Calendar.HOUR_OF_DAY),
+                            date_min   = selectedDate.get(Calendar.MINUTE),
+
                         )
                     )
 

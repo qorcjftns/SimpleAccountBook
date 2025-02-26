@@ -17,7 +17,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.cheulsoon.simpleaccountbook.core.common.toCalendar
 import com.cheulsoon.simpleaccountbook.presentation.viewmodel.TransactionViewModel
 import java.util.Calendar
 

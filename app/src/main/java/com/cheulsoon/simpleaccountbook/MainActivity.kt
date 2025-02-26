@@ -32,8 +32,6 @@ import java.util.Calendar
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Get Initial Date
-        val date = Calendar.getInstance().time
         setContent {
             MyViewPager()
         }
