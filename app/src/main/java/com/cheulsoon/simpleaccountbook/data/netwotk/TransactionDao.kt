@@ -15,10 +15,10 @@ interface TransactionDao {
     @Query("SELECT * FROM `Transaction` WHERE id = :id")
     fun getTransactionById(id: Int) : Flow<Transaction>
 
-    @Query("SELECT * FROM `Transaction` WHERE CAST(strftime('%d',date / 1000,'unixepoch') AS INTEGER) = :day AND CAST(strftime('%m',date / 1000,'unixepoch') AS INTEGER) = :month AND CAST(strftime('%y',date / 1000,'unixepoch') AS INTEGER) = :year")
+    @Query("SELECT * FROM `Transaction` WHERE CAST(strftime('%d',date / 1000,'unixepoch') AS INTEGER) = :day AND CAST(strftime('%m',date / 1000,'unixepoch') AS INTEGER) = :month AND CAST(strftime('%Y',date / 1000,'unixepoch') AS INTEGER) = :year")
     fun getTransactionsByDate(year: Int, month: Int, day: Int) : Flow<List<Transaction>>
 
-    @Query("SELECT * FROM `Transaction` WHERE CAST(strftime('%m',date / 1000,'unixepoch') AS INTEGER) = :month AND CAST(strftime('%y',date / 1000,'unixepoch') AS INTEGER) = :year")
+    @Query("SELECT * FROM `Transaction` WHERE CAST(strftime('%m',date / 1000,'unixepoch') AS INTEGER) = :month AND CAST(strftime('%Y',date / 1000,'unixepoch') AS INTEGER) = :year")
     fun getTransactionsByMonth(year: Int, month: Int) : Flow<List<Transaction>>
 
     @Insert

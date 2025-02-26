@@ -12,6 +12,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -28,7 +29,7 @@ fun TransactionListView(
 ){
 
     val viewModel : TransactionViewModel = hiltViewModel()
-    val result = viewModel.transactionList.value
+    val result = viewModel.transactionList.collectAsState().value
 
     if(result.isLoading) {
         Column(modifier = Modifier.fillMaxSize(),
@@ -47,9 +48,12 @@ fun TransactionListView(
             }
         }
     }
-    Column(
-        modifier = Modifier.verticalScroll(rememberScrollState())
-    ) {
-        Text("Error: ${result.error}")
+
+    if(result.error.isNotEmpty()) {
+        Column(
+            modifier = Modifier.verticalScroll(rememberScrollState())
+        ) {
+            Text("Error: ${result.error}")
+        }
     }
 }

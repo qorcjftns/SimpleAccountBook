@@ -31,11 +31,6 @@ fun listItem(transaction: Transaction, onItemClick : (Transaction) -> Unit) {
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(5.dp).clickable {
             onItemClick(transaction)
         }) {
-            Image(
-                modifier = Modifier.size(200.dp).padding(8.dp).weight(0.4f),
-                painter = rememberAsyncImagePainter(Icons.Filled.Check),
-                contentDescription = ""
-            )
             userDescription(transaction, Modifier.weight(0.6f))
         }
         Spacer(modifier = Modifier.fillMaxWidth().height(1.dp))
