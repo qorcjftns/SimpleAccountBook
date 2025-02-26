@@ -2,7 +2,6 @@ package com.cheulsoon.simpleaccountbook.domain.usecase
 
 import com.cheulsoon.simpleaccountbook.core.common.UiState
 import com.cheulsoon.simpleaccountbook.data.model.Transaction
-import com.cheulsoon.simpleaccountbook.data.respository.RepositoryImpl
 import com.cheulsoon.simpleaccountbook.data.respository.TransactionGatewayImpl
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
