@@ -14,14 +14,12 @@ import javax.inject.Inject
 
 class GetTransactionByDateUseCase @Inject constructor(private val transactionGatewayImpl: TransactionGatewayImpl) {
 
-    operator fun invoke(date: Date): Flow<UiState<List<Transaction>>> {
+    operator fun invoke(date: Calendar): Flow<UiState<List<Transaction>>> {
         // Fetch all users from the repository and return them as a Flow
-        val cal = Calendar.getInstance()
-        cal.time = date
         return flow {
             emit(UiState.Loading())
             transactionGatewayImpl.getTransactionsByDate(
-                    cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1, cal.get(Calendar.DAY_OF_MONTH))
+                date.get(Calendar.YEAR), date.get(Calendar.MONTH) + 1, date.get(Calendar.DAY_OF_MONTH))
                 .collect { transaction ->
                 emit(UiState.Success(data = transaction))
             }

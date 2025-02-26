@@ -3,13 +3,29 @@ package com.cheulsoon.simpleaccountbook
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import com.cheulsoon.simpleaccountbook.presentation.screens.CalendarView
-import com.cheulsoon.simpleaccountbook.ui.theme.SimpleABTheme
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.cheulsoon.simpleaccountbook.presentation.screens.AddScreen
+import com.cheulsoon.simpleaccountbook.presentation.screens.CalendarScreen
+import com.cheulsoon.simpleaccountbook.presentation.screens.SettingScreen
+import com.cheulsoon.simpleaccountbook.presentation.viewmodel.PagerViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import java.util.Calendar
 
 @AndroidEntryPoint
@@ -19,18 +35,50 @@ class MainActivity : ComponentActivity() {
         // Get Initial Date
         val date = Calendar.getInstance().time
         setContent {
-            SimpleABTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    val calendar = Calendar.getInstance()
-                    calendar.time = date
-                    CalendarView(
-                        startFromSunday = true,
-                        modifier = Modifier.fillMaxSize(),
-                    )
-                }
+            MyViewPager()
+        }
+    }
+}
+
+@Composable
+fun MyViewPager(viewModel: PagerViewModel = hiltViewModel()) {
+    val tabs = listOf(
+        Pair("홈", Icons.Default.Home),
+        Pair("추가", Icons.Default.Add),
+        Pair("설정", Icons.Default.Settings)
+    )
+    val pagerState = rememberPagerState(pageCount = { tabs.size })
+    val coroutineScope = rememberCoroutineScope()
+
+    Column(modifier = Modifier.fillMaxSize()) {
+        HorizontalPager(
+            state = pagerState,
+            modifier = Modifier.weight(1f)
+        ) { page ->
+            when(page) {
+                0 -> CalendarScreen()
+                1 -> AddScreen()
+                2 -> SettingScreen()
+                else -> Text("Haha! You found a bug!")
+            }
+        }
+        TabRow(
+            selectedTabIndex = pagerState.currentPage, // 현재 선택된 페이지와 동기화
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            tabs.forEachIndexed { index, (title, icon) ->
+                Tab(
+                    selected = pagerState.currentPage == index,
+                    onClick = {
+                        coroutineScope.launch {
+                            pagerState.animateScrollToPage(index) // 탭 클릭 시 페이지 변경
+                        }
+                    },
+                    icon = {
+                        Icon(imageVector = icon, contentDescription = title)
+                    },
+                    text = { Text(title) }
+                )
             }
         }
     }

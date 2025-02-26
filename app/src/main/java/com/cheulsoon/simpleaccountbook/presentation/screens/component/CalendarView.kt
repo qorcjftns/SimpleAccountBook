@@ -1,4 +1,4 @@
-package com.cheulsoon.simpleaccountbook.presentation.screens
+package com.cheulsoon.simpleaccountbook.presentation.screens.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -8,7 +8,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme.colorScheme
@@ -25,9 +24,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.cheulsoon.simpleaccountbook.data.model.Transaction
 import com.cheulsoon.simpleaccountbook.presentation.viewmodel.TransactionViewModel
-import com.cheulsoon.simpleaccountbook.screens.TransactionListView
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -41,10 +38,7 @@ fun CalendarView(
 ) {
 
     val viewModel : TransactionViewModel = hiltViewModel()
-    val selectedDate = viewModel.selectedDate.collectAsState().value
-
-    val date = Calendar.getInstance()
-    date.time = selectedDate
+    val date = viewModel.selectedDate.collectAsState().value
 
     Column(modifier = modifier) {
         Box(modifier = Modifier.fillMaxWidth()) {
@@ -61,7 +55,7 @@ fun CalendarView(
                 Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = null)
             }
             Text(
-                text = date.time.formatTitleString(),
+                text = date.formatTitleString(),
                 style = typography.headlineMedium,
                 color = colorScheme.onPrimaryContainer,
                 modifier = Modifier.align(Alignment.Center),
@@ -81,22 +75,21 @@ fun CalendarView(
     }
 }
 
-private fun onClickItem(viewModel: TransactionViewModel, date: Date) {
+private fun onClickItem(viewModel: TransactionViewModel, date: Calendar) {
     viewModel.setDate(date)
 }
 
 private fun onClickButton(viewModel: TransactionViewModel, next: Boolean) {
-    val date = Calendar.getInstance()
-    date.time = viewModel.selectedDate.value
+    val date = viewModel.selectedDate.value
     date.set(Calendar.MONTH, date.get(Calendar.MONTH) + (if(next) 1 else -1))
-    viewModel.setDate(date.time)
+    viewModel.setDate(date)
 }
 
-fun getDateList(year: Int, month: Int): List<Date> {
-    val list = arrayListOf<Date>()
+fun getDateList(year: Int, month: Int): List<Calendar> {
+    val list = arrayListOf<Calendar>()
     val maxDate: Int = when(month) {
-        1, 3, 5, 7, 8, 10, 12 -> 31
-        4, 6, 9, 11 -> 30
+        0, 2, 4, 6, 7, 9, 11 -> 31
+        3, 5, 8, 10 -> 30
         else -> if(year % 4 == 0) 29 else 28
     }
     for(d in 1..maxDate) {
@@ -104,20 +97,19 @@ fun getDateList(year: Int, month: Int): List<Date> {
         cal.set(Calendar.YEAR, year)
         cal.set(Calendar.MONTH, month)
         cal.set(Calendar.DAY_OF_MONTH, d)
-        list.add(cal.time)
+        list.add(cal)
     }
     return list
 }
 
 @Composable
 private fun CalendarGrid(
-    date: List<Date>,
-    onClick: (Date) -> Unit,
+    date: List<Calendar>,
+    onClick: (Calendar) -> Unit,
     startFromSunday: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    val firstDay = Calendar.getInstance()
-    firstDay.time = date.first()
+    val firstDay = date.first()
     val weekdayFirstDay = firstDay.get(Calendar.DAY_OF_WEEK)
     val weekdays = getWeekDays(startFromSunday)
     CalendarCustomLayout(modifier = modifier) {
@@ -139,12 +131,12 @@ fun getWeekDays(startFromSunday: Boolean): List<Int> {
     return (if (startFromSunday) list else list.drop(1) + list.take(1)).toList()
 }
 
-private fun Date.formatTitleString(): String = SimpleDateFormat("yyyy.MM", Locale.getDefault()).format(this)
-private fun Date.formatToCalendarDay(): String = SimpleDateFormat("d", Locale.getDefault()).format(this)
+private fun Calendar.formatTitleString(): String = SimpleDateFormat("yyyy.MM", Locale.getDefault()).format(this.time)
+private fun Calendar.formatToCalendarDay(): String = SimpleDateFormat("d", Locale.getDefault()).format(this.time)
 
 @Composable
 fun CalendarCell (
-    date: Date,
+    date: Calendar,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
