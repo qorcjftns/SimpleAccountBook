@@ -2,7 +2,16 @@ package com.cheulsoon.simpleaccountbook.presentation.screens.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -11,7 +20,6 @@ import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme.colorScheme
-import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -21,13 +29,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.cheulsoon.simpleaccountbook.core.common.isSameDay
 import com.cheulsoon.simpleaccountbook.presentation.viewmodel.TransactionViewModel
 import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Date
 import java.util.Locale
 
 
@@ -41,25 +51,29 @@ fun CalendarView(
     val date = viewModel.selectedDate.collectAsState().value
 
     Column(modifier = modifier) {
-        Box(modifier = Modifier.fillMaxWidth()) {
-            IconButton(
-                onClick = { viewModel.addMonth(-1) },
-                modifier = Modifier.align(Alignment.CenterStart),
-            ) {
-                Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, contentDescription = null)
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)) {
+            Box(modifier = Modifier.fillMaxWidth()) {
+                IconButton(
+                    onClick = { viewModel.addMonth(-1) },
+                    modifier = Modifier.align(Alignment.CenterStart),
+                ) {
+                    Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, contentDescription = null)
+                }
+                IconButton(
+                    onClick = { viewModel.addMonth(1) },
+                    modifier = Modifier.align(Alignment.CenterEnd),
+                ) {
+                    Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = null)
+                }
+                Text(
+                    text = date.formatTitleString(),
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.align(Alignment.Center),
+                )
             }
-            IconButton(
-                onClick = { viewModel.addMonth(1) },
-                modifier = Modifier.align(Alignment.CenterEnd),
-            ) {
-                Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = null)
-            }
-            Text(
-                text = date.formatTitleString(),
-                style = typography.headlineMedium,
-                color = colorScheme.onPrimaryContainer,
-                modifier = Modifier.align(Alignment.Center),
-            )
         }
         Spacer(modifier = Modifier.size(16.dp))
         CalendarGrid(
@@ -107,9 +121,12 @@ private fun CalendarGrid(
     startFromSunday: Boolean,
     modifier: Modifier = Modifier,
 ) {
+    val viewModel: TransactionViewModel = hiltViewModel()
+    val selectedDate = viewModel.selectedDate.collectAsState().value
     val firstDay = date.first()
     val weekdayFirstDay = firstDay.get(Calendar.DAY_OF_WEEK)
     val weekdays = getWeekDays(startFromSunday)
+
     CalendarCustomLayout(modifier = modifier) {
         weekdays.forEach {
             WeekdayCell(weekday = it)
@@ -119,7 +136,9 @@ private fun CalendarGrid(
             Spacer(modifier = Modifier)
         }
         date.forEach {
-            CalendarCell(date = it, onClick = { onClick(it) })
+            CalendarCell(
+                date = it, onClick = { onClick(it) },
+                isSelected = it.isSameDay(selectedDate))
         }
     }
 }
@@ -136,6 +155,7 @@ private fun Calendar.formatToCalendarDay(): String = SimpleDateFormat("d", Local
 fun CalendarCell (
     date: Calendar,
     onClick: () -> Unit,
+    isSelected: Boolean = false,
     modifier: Modifier = Modifier,
 ) {
     val text = date.formatToCalendarDay()
@@ -146,7 +166,7 @@ fun CalendarCell (
             .padding(2.dp)
             .background(
                 shape = RoundedCornerShape(CornerSize(8.dp)),
-                color = colorScheme.secondaryContainer,
+                color = if(isSelected) colorScheme.primaryContainer else colorScheme.secondaryContainer,
             )
             .clip(RoundedCornerShape(CornerSize(8.dp)))
             .clickable(onClick = onClick)
