@@ -1,7 +1,8 @@
 package com.cheulsoon.simpleaccountbook.domain.usecase
 
-import com.cheulsoon.simpleaccountbook.data.model.Transaction
 import com.cheulsoon.simpleaccountbook.data.respository.TransactionGatewayImpl
+import com.cheulsoon.simpleaccountbook.domain.mapper.toTransactionDTO
+import com.cheulsoon.simpleaccountbook.domain.model.Transaction
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
@@ -12,7 +13,7 @@ class UpdateTransactionUseCase @Inject constructor(private val transactionGatewa
 
     operator fun invoke() = CoroutineScope(IO).launch {
         transaction?.let {
-            transactionGatewayImpl.updateTransaction(it)
+            transactionGatewayImpl.updateTransaction(it.toTransactionDTO())
         }
     }
 

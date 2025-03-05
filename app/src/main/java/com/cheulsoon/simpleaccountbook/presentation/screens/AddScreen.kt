@@ -2,7 +2,6 @@ package com.cheulsoon.simpleaccountbook.presentation.screens
 
 import android.app.TimePickerDialog
 import android.telephony.PhoneNumberUtils.formatNumber
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,7 +25,6 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -45,8 +43,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.cheulsoon.simpleaccountbook.core.common.toLocalTimeMillis
-import com.cheulsoon.simpleaccountbook.data.model.Transaction
+import com.cheulsoon.simpleaccountbook.domain.model.Transaction
 import com.cheulsoon.simpleaccountbook.presentation.viewmodel.TransactionViewModel
 import com.cheulsoon.simpleaccountbook.ui.theme.SimpleABTheme
 import java.text.SimpleDateFormat

@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cheulsoon.simpleaccountbook.core.common.UiState
 import com.cheulsoon.simpleaccountbook.core.common.toLocalTimeMillis
-import com.cheulsoon.simpleaccountbook.data.model.Transaction
+import com.cheulsoon.simpleaccountbook.domain.model.Transaction
 import com.cheulsoon.simpleaccountbook.domain.usecase.GetTransactionByDateUseCase
 import com.cheulsoon.simpleaccountbook.domain.usecase.GetTransactionByIdUseCase
 import com.cheulsoon.simpleaccountbook.domain.usecase.InsertTransactionUseCase

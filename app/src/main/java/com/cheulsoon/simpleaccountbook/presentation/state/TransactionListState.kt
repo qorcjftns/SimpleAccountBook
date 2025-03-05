@@ -1,6 +1,6 @@
 package com.cheulsoon.simpleaccountbook.presentation.state
 
-import com.cheulsoon.simpleaccountbook.data.model.Transaction
+import com.cheulsoon.simpleaccountbook.domain.model.Transaction
 
 data class TransactionListState (
     val isLoading: Boolean = false,
