@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -54,7 +54,7 @@ fun EditTransactionScreen(viewModel: TransactionViewModel = hiltViewModel()) {
                 .padding(bottom = 16.dp)
         ) {
             IconButton(onClick = { (context as? Activity)?.finish() }) { //  현재 Activity 종료
-                Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "뒤로 가기")
+                Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "뒤로 가기")
             }
             Text(
                 text = "거래 수정",

@@ -13,8 +13,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
@@ -77,7 +77,7 @@ fun AddScreen() {
                 ) {
                     // 이전 날짜 버튼
                     IconButton(onClick = { viewModel.changeDate(-1) }) {
-                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "이전 날짜")
+                        Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "이전 날짜")
                     }
 
                     // 날짜 표시
@@ -89,7 +89,7 @@ fun AddScreen() {
 
                     // 다음 날짜 버튼
                     IconButton(onClick = { viewModel.changeDate(1) }) {
-                        Icon(imageVector = Icons.Default.ArrowForward, contentDescription = "다음 날짜")
+                        Icon(imageVector = Icons.AutoMirrored.Filled.ArrowForward, contentDescription = "다음 날짜")
                     }
                 }
 
